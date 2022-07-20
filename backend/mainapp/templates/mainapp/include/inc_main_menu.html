@@ -8,9 +8,9 @@
             {% for menu in main_menu %}
                 <li>
                     <a href="{{ menu.href }}"
-                        class="{% if request.resolver_match.url_name == menu.href %}
-                                active
-                            {% endif %}">
+                        {% if menu.href == request.resolver_match.url_name %}
+                            class="active"
+                        {% endif %}>
                         {{ menu.name }}
                     </a>
                 </li>
