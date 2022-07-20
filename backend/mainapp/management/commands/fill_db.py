@@ -24,11 +24,11 @@ class Command(BaseCommand):
 
         Product.objects.all().delete()
         for product in products:
-            category_name = product["category"]
+            category_name = product["categories"]
             # Получаем категорию по имени
-            _category = ProductCategory.objects.get(name=category_name)
+            _categories = ProductCategory.objects.get(name=category_name)
             # Заменяем название категории объектом
-            product['category'] = _category
+            product["categories"] = _categories
             new_product = Product(**product)
             new_product.save()
 # Создаем суперпользователя при помощи менеджера модели

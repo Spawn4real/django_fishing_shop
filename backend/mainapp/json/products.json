@@ -1,6 +1,6 @@
 [
   {
-    "category": 2,
+    "categories": 2,
     "name": "Не оторваться",
     "image": "media/product-2.jpg",
     "short_desc": "комфортный",
@@ -9,7 +9,7 @@
     "quantity": 100
   },
     {
-    "category": 3,
+    "categories": 3,
     "name": "Не оторваться",
     "image": "media/product-3.jpg",
     "short_desc": "удобный",
@@ -18,7 +18,7 @@
     "quantity": 10
   },
       {
-    "category": 4,
+    "categories": 4,
     "name": "Не оторваться",
     "image": "media/product-4.jpg",
     "short_desc": "просто хороший",
@@ -27,7 +27,7 @@
     "quantity": 0
   },
         {
-    "category": 1,
+    "categories": 1,
     "name": "Не оторваться",
     "image": "media/product-21.jpg",
     "short_desc": "замечательный",

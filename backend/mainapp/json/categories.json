@@ -1,18 +1,18 @@
 [
   {
       "name": "Офис",
-      "discription": ""
+      "description": ""
   },
   {
     "name": "Классика",
-    "discription": ""
+    "description": ""
   },
   {
       "name": "Дом",
-      "discription": ""
+      "description": ""
   },
   {
       "name": "Модерн",
-      "discription": ""
+      "description": ""
   }
 ]
