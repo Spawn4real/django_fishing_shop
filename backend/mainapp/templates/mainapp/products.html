@@ -13,8 +13,8 @@
 				<ul class="links-menu">
 					{% for category in categories %}
 						<li>
-							<a href="{% url 'products:category' category.id %}"
-								class="{% if category.id == selected_category.id %} active {% endif %}">{{ category.name }}
+							<a href="{{ category.href }}"
+								class="{% if category.name == selected_category.name %} active {% endif %}">{{ category.name }}
 							</a>
 						</li>
 					{% endfor %}
@@ -25,19 +25,19 @@
 					{% with product=products.0 %}
 						<div class="details-slider">
 							<div class="slider-product">
-								<img src="/media/{{ product.image }}">
+								<img src="/media/{{ hot_product.image }}">
 							</div>
 						</div>
 
 						<div class="description">
-							<h3 class="big-bold">{{ products.0.name }}</h3>
-							<h3 class="red">{{products.0.short_desc}}</h3>
-							<p class="price"> {{product.price}} <span>руб</span></p>
+							<h3 class="big-bold">{{ hot_product.name }}</h3>
+							<h3 class="red">{{hot_product.short_desc}}</h3>
+							<p class="price"> {{hot_product.price}} <span>руб</span></p>
 							<a href="#" class="red-button">
 								заказать <i class="fa fa-chevron-right" aria-hidden="true"></i>
 							</a>
 							<div class="description-text">
-								{{products.0.description|linebreaks}}
+								{{hot_product.description|linebreaks}}
 							</div>
 						</div>
 					{% endwith %}

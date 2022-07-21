@@ -1,38 +1,38 @@
 [
   {
-    "categories": 2,
-    "name": "Не оторваться",
-    "image": "media/product-2.jpg",
-    "short_desc": "комфортный",
+    "name": "Стул",
     "description": "отличный стул",
+    "short_description": "комфортный",
+    "categories": "Дом",
     "price": 5060,
-    "quantity": 100
+    "quantity": 100,
+    "image": "media/product-2.jpg"
   },
     {
-    "categories": 3,
-    "name": "Не оторваться",
-    "image": "media/product-3.jpg",
-    "short_desc": "удобный",
-    "description": "эргономичный",
-    "price": 1200,
-    "quantity": 10
+    "name": "Диван",
+    "description": "отличный стул",
+    "short_description": "комфортный",
+    "categories": "Классика",
+    "price": 5060,
+    "quantity": 100,
+    "image": "media/product-2.jpg"
   },
       {
-    "categories": 4,
-    "name": "Не оторваться",
-    "image": "media/product-4.jpg",
-    "short_desc": "просто хороший",
-    "description": "хороший",
-    "price": 100,
-    "quantity": 0
+    "name": "Лампа",
+    "description": "отличный стул",
+    "short_description": "комфортный",
+    "categories": "Офис",
+    "price": 5060,
+    "quantity": 100,
+    "image": "media/product-2.jpg"
   },
         {
-    "categories": 1,
-    "name": "Не оторваться",
-    "image": "media/product-21.jpg",
-    "short_desc": "замечательный",
-    "description": "стоит брать",
-    "price": 12000,
-    "quantity": 5
+    "name": "Кресло",
+    "description": "отличный стул",
+    "short_description": "комфортный",
+    "categories": "Модерн",
+    "price": 5060,
+    "quantity": 100,
+    "image": "media/product-2.jpg"
   }
 ]
