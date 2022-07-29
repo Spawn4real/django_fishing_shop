@@ -4,7 +4,7 @@ from django.urls import reverse
 from .models import Product, ProductCategory
 
 # Create your views here.
-from cartapp.models import Cart
+
 
 main_menu = [
     {'href': 'main', 'active_if': ['main'], 'name': 'Домой'},
@@ -16,13 +16,11 @@ main_menu = [
 # Контроллер для домашней странциы
 def main(request):
     title = 'Главная'
-    cart = Cart.objects.filter(user=request.user)
     products = Product.objects.all()
     context = {
         'title': title,
         'main_menu': main_menu,
         'products': products,
-        'cart': cart,
     }
     return render(request, 'mainapp/main.html', context=context)
 
@@ -38,9 +36,6 @@ def products(request, pk=0):
                                                                                   args=[selected_category.id])}
 
     title = 'Каталог'
-
-    cart = Cart.objects.filter(user=request.user)
-
     categories = [{'name': c.name, 'href': reverse('products:category', args=[c.id])}
                   for c in ProductCategory.objects.all()]
     categories = [{'name': 'Всё', 'href': reverse('products:index')}, *categories]
@@ -60,20 +55,27 @@ def products(request, pk=0):
         'categories': categories,
         'products': products,
         'hot_product': hot_product,
-        'cart': cart,
     }
     return render(request, 'mainapp/products.html', context=context)
+
+
+def product(request, pk):
+    title = 'продукты'
+    content = {
+        'title': title,
+        'links_menu': ProductCategory.objects.all(),
+        'product': get_object_or_404(Product, pk=pk),
+        'cart': get_object_or_404(request.user),
+    }
+    return render(request, 'mainapp/product.html', content)
 
 
 # Контроллер для страницы с контактами
 def contacts(request):
     title = 'Контакты'
 
-    cart = Cart.objects.filter(user=request.user)
-
     context = {
         'title': title,
         'main_menu': main_menu,
-        'cart': cart,
     }
     return render(request, 'mainapp/contacts.html', context=context)

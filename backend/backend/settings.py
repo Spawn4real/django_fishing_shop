@@ -136,3 +136,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Auth
 
 AUTH_USER_MODEL = 'authapp.ShopUser'
+LOGIN_URL = 'auth:login'

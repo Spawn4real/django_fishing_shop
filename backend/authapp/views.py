@@ -6,6 +6,13 @@ from django.contrib import auth
 from django.urls import reverse
 
 
+main_menu = [
+    {'href': 'main', 'active_if': ['main'], 'name': 'Домой'},
+    {'href': 'products:index', 'active_if': ['product:index', 'product:category'], 'name': 'Продукты'},
+    {'href': 'contacts', 'active_if': ['contacts'], 'name': 'Контакты'},
+]
+
+
 def login(request):
     title = 'вход'
 
@@ -19,7 +26,11 @@ def login(request):
             auth.login(request, user)
             return HttpResponseRedirect(reverse('main'))
 
-    content = {'title': title, 'login_form': login_form}
+    content = {
+        'title': title,
+        'login_form': login_form,
+        'main_menu': main_menu
+    }
     return render(request, 'authapp/login.html', content)
 
 
@@ -40,7 +51,11 @@ def register(request):
     else:
         register_form = ShopUserRegisterForm()
 
-    content = {'title': title, 'register_form': register_form}
+    content = {
+        'title': title,
+        'register_form': register_form,
+        'main_menu': main_menu
+               }
 
     return render(request, 'authapp/register.html', content)
 
@@ -56,7 +71,11 @@ def edit(request):
     else:
         edit_form = ShopUserEditForm(instance=request.user)
 
-    content = {'title': title, 'edit_form': edit_form}
+    content = {
+        'title': title,
+        'edit_form': edit_form,
+        'main_menu': main_menu
+    }
 
     return render(request, 'authapp/edit.html', content)
 
