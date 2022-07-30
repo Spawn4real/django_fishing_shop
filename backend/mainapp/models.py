@@ -8,6 +8,7 @@ from django.db import models
 class ProductCategory(models.Model):
     name = models.CharField(verbose_name='Имя', max_length=64, unique=True)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    is_active = models.BooleanField(verbose_name='активна', default=True)
 
     def __str__(self):
         return self.name
@@ -33,6 +34,10 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products_images', blank=True)
 
     objects = ProductManager()
+
+    @property
+    def total_cost(self):
+        return sum(item.product.price * item.quantity for item in self.all())
 
     def __str__(self):
         return self.name
