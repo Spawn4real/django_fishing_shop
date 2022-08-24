@@ -9,9 +9,9 @@
 		    <li>
                 <a href="{% url menu.href %}"
                     {% with url=request.resolver_match.url_name %}
-                    {% if url in menu.active_if %}
-                        class = 'active'
-                    {% endif %}>
+                        {% if url in menu.active_if %}
+                            class = 'active'
+                        {% endif %}>
                     {% endwith %}
                     {{ menu.name }}
                 </a>

@@ -1,7 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import random
 
 from .models import Product, ProductCategory
+from cartapp.models import Cart
 
 # Create your views here.
 
@@ -11,6 +14,25 @@ main_menu = [
     {'href': 'products:index', 'active_if': ['product:index', 'product:category'], 'name': 'Продукты'},
     {'href': 'contacts', 'active_if': ['contacts'], 'name': 'Контакты'},
 ]
+
+
+def get_cart(user):
+    if user.is_authenticated:
+        return Cart.objects.filter(user=user)
+    else:
+        return []
+
+
+def get_hot_product():
+    products = Product.objects.filter(is_active=True, category__is_active=True)
+
+    return random.sample(list(products), 1)[0]
+
+
+def get_same_products(hot_product):
+    same_products = Product.objects.filter(category=hot_product.category, is_active=True).exclude(pk=hot_product.pk)[:3]
+
+    return same_products
 
 
 # Контроллер для домашней странциы
@@ -26,46 +48,69 @@ def main(request):
 
 
 # Контроллер для страницы с товарами
-def products(request, pk=0):
-    if not pk:
-        selected_category = None
-        selected_category_dict = {'name': 'Всё', 'href': reverse('products:index', args=[])}
-    else:
-        selected_category = get_object_or_404(ProductCategory, id=pk)
-        selected_category_dict = {'name': selected_category.name, 'href': reverse('products:category',
-                                                                                  args=[selected_category.id])}
+def products(request, pk=None, page=1):
+    title = 'продукты'
+    links_menu = ProductCategory.objects.filter(is_active=True)
+    cart = get_cart(request.user)
 
-    title = 'Каталог'
-    categories = [{'name': c.name, 'href': reverse('products:category', args=[c.id])}
-                  for c in ProductCategory.objects.all()]
-    categories = [{'name': 'Всё', 'href': reverse('products:index')}, *categories]
-    if selected_category:
-        products_query = Product.objects.filter(category=selected_category)
-    else:
-        products_query = Product.objects.all()
+    if pk is not None:
+        if pk == 0:
+            category = {
+                'pk': 0,
+                'name': 'все'
+            }
+            products = Product.objects.filter(is_active=True, category__is_active=True).order_by('price')
 
-    hot_product = Product.objects.hot_product
+        else:
+            category = get_object_or_404(ProductCategory, pk=pk)
+            products = Product.objects.filter(category__pk=pk, is_active=True, category__is_active=True).order_by('price')
 
-    products = products_query.order_by('price')
+        paginator = Paginator(products, 2)
+        try:
+            products_paginator = paginator.page(page)
+        except PageNotAnInteger:
+            products_paginator = paginator.page(1)
+        except EmptyPage:
+            products_paginator = paginator.page(paginator.num_pages)
+        content = {
+            'title': title,
+            'links_menu': links_menu,
+            'main_menu': main_menu,
+            'category': category,
+            'products': products_paginator,
+            'cart': cart,
+        }
+        return render(request, 'mainapp/products_list.html', content)
 
-    context = {
+    hot_product = get_hot_product()
+    same_products = get_same_products(hot_product)
+    products = Product.objects.all()
+
+    content = {
         'title': title,
         'main_menu': main_menu,
-        'selected_category': selected_category_dict,
-        'categories': categories,
         'products': products,
         'hot_product': hot_product,
+        'same_products': same_products,
+        'links_menu': links_menu,
+        'cart': cart,
     }
-    return render(request, 'mainapp/products.html', context=context)
+
+    return render(request, 'mainapp/products.html', content)
 
 
 def product(request, pk):
     title = 'продукты'
+    links_menu = ProductCategory.objects.filter(is_active=True)
+
+    product = get_object_or_404(Product, pk=pk)
+
     content = {
         'title': title,
-        'links_menu': ProductCategory.objects.all(),
-        'product': get_object_or_404(Product, pk=pk),
-        'cart': get_object_or_404(request.user),
+        'main_menu': main_menu,
+        'links_menu': links_menu,
+        'product': product,
+        'cart': get_cart(request.user),
     }
     return render(request, 'mainapp/product.html', content)
 
