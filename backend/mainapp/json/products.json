@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Стул",
+    "description": "отличный стул",
+    "short_description": "комфортный",
+    "categories": "Дом",
+    "price": 5060,
+    "quantity": 100,
+    "image": "media/product-2.jpg"
+  },
+    {
+    "name": "Диван",
+    "description": "отличный стул",
+    "short_description": "комфортный",
+    "categories": "Классика",
+    "price": 5060,
+    "quantity": 100,
+    "image": "media/product-2.jpg"
+  },
+      {
+    "name": "Лампа",
+    "description": "отличный стул",
+    "short_description": "комфортный",
+    "categories": "Офис",
+    "price": 5060,
+    "quantity": 100,
+    "image": "media/product-2.jpg"
+  },
+        {
+    "name": "Кресло",
+    "description": "отличный стул",
+    "short_description": "комфортный",
+    "categories": "Модерн",
+    "price": 5060,
+    "quantity": 100,
+    "image": "media/product-2.jpg"
+  }
+]
