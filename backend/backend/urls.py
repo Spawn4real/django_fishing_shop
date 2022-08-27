@@ -28,7 +28,7 @@ urlpatterns = [
     path('cart/', include('cartapp.urls', namespace='cart')),
     path('contacts/', mainapp.contacts, name='contacts'),
     path('auth/', include('authapp.urls', namespace='auth')),
-
+    path('', include('social_django.urls', namespace='social'))
 ]
 
 if settings.DEBUG:
