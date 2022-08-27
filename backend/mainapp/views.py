@@ -78,7 +78,6 @@ def products(request, pk=None, page=1):
             'main_menu': main_menu,
             'category': category,
             'products': products_paginator,
-            'cart': cart,
         }
         return render(request, 'mainapp/products_list.html', content)
 
@@ -93,7 +92,6 @@ def products(request, pk=None, page=1):
         'hot_product': hot_product,
         'same_products': same_products,
         'links_menu': links_menu,
-        'cart': cart,
     }
 
     return render(request, 'mainapp/products.html', content)
@@ -110,7 +108,6 @@ def product(request, pk):
         'main_menu': main_menu,
         'links_menu': links_menu,
         'product': product,
-        'cart': get_cart(request.user),
     }
     return render(request, 'mainapp/product.html', content)
 

@@ -1,10 +1,15 @@
+from django.db import transaction
 from django.shortcuts import render, HttpResponseRedirect
-from authapp.forms import ShopUserLoginForm
-from authapp.forms import ShopUserRegisterForm
-from authapp.forms import ShopUserEditForm
+from .forms import ShopUserLoginForm
+from .forms import ShopUserRegisterForm
+from .forms import ShopUserEditForm
+from .forms import ShopUserProfileEditForm
 from django.contrib import auth
 from django.urls import reverse
+from django.core.mail import send_mail
+from .utils import send_verify_mail
 
+from .models import ShopUser
 
 main_menu = [
     {'href': 'main', 'active_if': ['main'], 'name': 'Домой'},
@@ -44,38 +49,54 @@ def register(request):
 
     if request.method == 'POST':
         register_form = ShopUserRegisterForm(request.POST, request.FILES)
-
         if register_form.is_valid():
-            register_form.save()
-            return HttpResponseRedirect(reverse('auth:login'))
+            user = register_form.save()
+            send_verify_mail(user)
+            return HttpResponseRedirect(reverse("auth:login"))
     else:
         register_form = ShopUserRegisterForm()
 
-    content = {
-        'title': title,
-        'register_form': register_form,
-        'main_menu': main_menu
-               }
+    content = {'title': title, 'register_form': register_form, 'main_menu': main_menu}
 
     return render(request, 'authapp/register.html', content)
 
 
+@transaction.atomic
 def edit(request):
     title = 'редактирование'
 
     if request.method == 'POST':
         edit_form = ShopUserEditForm(request.POST, request.FILES, instance=request.user)
-        if edit_form.is_valid():
+        profile_form = ShopUserProfileEditForm(request.POST, instance=request.user.shopuserprofile)
+        if edit_form.is_valid() and profile_form.is_valid():
             edit_form.save()
+            profile_form.save()
             return HttpResponseRedirect(reverse('auth:edit'))
     else:
         edit_form = ShopUserEditForm(instance=request.user)
+        profile_form = ShopUserProfileEditForm(instance=request.user.shopuserprofile)
 
     content = {
         'title': title,
         'edit_form': edit_form,
-        'main_menu': main_menu
+        'main_menu': main_menu,
+        'profile_form': profile_form,
     }
 
     return render(request, 'authapp/edit.html', content)
 
+
+def verify(request, email, activation_key):
+    try:
+        user = ShopUser.objects.get(email=email)
+        if user.activation_key == activation_key and not user.is_activation_key_expired():
+            user.is_active = True
+            user.save()
+            auth.login(request, user, backend='django.contrib.auth.backend.ModelBackend')
+            return render(request, 'authapp/verification.html')
+        else:
+            print(f'error activation user: {user}')
+            return render(request, 'authapp/verification.html')
+    except Exception as e:
+        print(f'error activation user : {e.args}')
+        return HttpResponseRedirect(reverse('main'))
