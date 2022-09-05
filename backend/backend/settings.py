@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mainapp',
     'authapp',
-    'cartapp',
-    'adminapp',
     'social_django',
+    'cartapp',
+    'ordersapp',
+    'adminapp',
 ]
 
 MIDDLEWARE = [

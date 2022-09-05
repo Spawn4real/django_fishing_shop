@@ -18,6 +18,10 @@ class CartManager(models.Manager):
     def has_items(self):
         return bool(len(self.all()))
 
+    @staticmethod
+    def get_items(user):
+        return Cart.objects.filter(user=user).order_by('product__category')
+
 
 class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь',
@@ -27,3 +31,4 @@ class Cart(models.Model):
     add_datetime = models.DateTimeField(auto_now_add=True)
 
     objects = CartManager()
+

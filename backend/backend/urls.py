@@ -28,8 +28,10 @@ urlpatterns = [
     path('cart/', include('cartapp.urls', namespace='cart')),
     path('contacts/', mainapp.contacts, name='contacts'),
     path('auth/', include('authapp.urls', namespace='auth')),
-    path('', include('social_django.urls', namespace='social'))
+    path('', include('social_django.urls', namespace='social')),
+    path('order/', include('ordersapp.urls', namespace='order')),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
