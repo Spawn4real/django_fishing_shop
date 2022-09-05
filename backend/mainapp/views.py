@@ -30,7 +30,9 @@ def get_hot_product():
 
 
 def get_same_products(hot_product):
-    same_products = Product.objects.filter(category=hot_product.category, is_active=True).exclude(pk=hot_product.pk)[:3]
+    same_products = Product.objects.filter(
+        category=hot_product.category,
+        is_active=True).exclude(pk=hot_product.pk)[:3]
 
     return same_products
 
@@ -59,11 +61,16 @@ def products(request, pk=None, page=1):
                 'pk': 0,
                 'name': 'все'
             }
-            products = Product.objects.filter(is_active=True, category__is_active=True).order_by('price')
+            products = Product.objects.filter(
+                is_active=True,
+                category__is_active=True).order_by('price')
 
         else:
             category = get_object_or_404(ProductCategory, pk=pk)
-            products = Product.objects.filter(category__pk=pk, is_active=True, category__is_active=True).order_by('price')
+            products = Product.objects.filter(
+                category__pk=pk,
+                is_active=True,
+                category__is_active=True).order_by('price')
 
         paginator = Paginator(products, 2)
         try:

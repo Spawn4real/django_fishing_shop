@@ -19,9 +19,13 @@
 		{% endfor %}
             {% if user.is_authenticated %}
             <li>
-                <a href="{% url 'auth:edit' %}">
-                    {{ user.first_name|default:'Пользователь' }}
-                </a>
+               <div class="dropdown">
+                    <a href="#">{{ user.username }}</a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'auth:edit' %}">Профиль</a>
+                        <a href="{% url 'ordersapp:orders_list' %}">Заказы</a>
+                    </div>
+                </div>
             </li>
             {% endif %}
             <li>
@@ -42,7 +46,6 @@
 
         </ul>
         <a href="#" class="search"></a>
-
     </div>
 </body>
 </html>
